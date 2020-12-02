@@ -30,10 +30,10 @@ async def download_file(url, dest):
 
 async def setup_model():
     #UNCOMMENT HERE FOR CUSTOM TRAINED MODEL
-    # await download_file(model_file_url, MODEL_PATH)
-    # model = load_model(MODEL_PATH) # Load your Custom trained model
+    await download_file(model_file_url, MODEL_PATH)
+    model = load_model(MODEL_PATH) # Load your Custom trained model
     # model._make_predict_function()
-    model = ResNet50(weights='imagenet') # COMMENT, IF you have Custom trained model
+    #model = ResNet50(weights='imagenet') # COMMENT, IF you have Custom trained model
     return model
 
 # Asynchronous Steps
@@ -51,11 +51,15 @@ async def upload(request):
 
 def model_predict(img_path, model):
     class_names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y' ]
-    result = []; img = image.load_img(img_path, target_size=(28,28,1))
-    #img = Image.open(img_path).convert('RGB')
-    imgData = np.array(img)
-    predicted_classes = model.predict(imgData)
-    predicted_let = str(class_names[int(predicted_classes[0])])
+    images = image.load_img(img_path, target_size=(28, 28))    
+    x = image.img_to_array(images)
+    x = tf.image.rgb_to_grayscale(x)
+    x = np.expand_dims(x, axis=0)
+    x = x/255.0
+    predicted_classes = model.predict(x).tolist()
+    ind = predicted_classes[0].index(max(predicted_classes[0]))
+    predicted_let = str(class_names[ind])
+    result = []
     result_html1 = path/'static'/'result1.html'
     result_html2 = path/'static'/'result2.html'
     result_html = str(result_html1.open().read() +predicted_let + result_html2.open().read())
