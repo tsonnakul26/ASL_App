@@ -11,6 +11,7 @@ import uvicorn, aiohttp, asyncio
 import sys, numpy as np
 import tensorflow as tf
 from cv2 import cv2
+from PIL import Image
 
 path = Path(__file__).parent
 model_file_url = 'https://github.com/tsonnakul26/ASL_App/tree/main/app/models'
