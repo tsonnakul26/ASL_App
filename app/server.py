@@ -11,7 +11,7 @@ import uvicorn, aiohttp, asyncio
 import sys, numpy as np
 
 path = Path(__file__).parent
-model_file_url = 'https://github.com/tsonnakul26/ASL_App/blob/main/app/models/model.h5?raw=true'
+model_file_url = 'https://github.com/tsonnakul26/ASL_App/blob/main/app/models/model.h5'
 model_file_name = 'model'
 
 app = Starlette()
