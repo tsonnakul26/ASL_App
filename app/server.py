@@ -10,6 +10,7 @@ from pathlib import Path
 import uvicorn, aiohttp, asyncio
 import sys, numpy as np
 import tensorflow as tf
+import cv2
 
 path = Path(__file__).parent
 model_file_url = 'https://github.com/tsonnakul26/ASL_App/tree/main/app/models'
@@ -50,13 +51,42 @@ async def upload(request):
     with open(IMG_FILE_SRC, 'wb') as f: f.write(img_bytes)
     return model_predict(IMG_FILE_SRC, model)
 
+# Created by Silencer @ Stackoverflow 
+# 2018.01.23 14:41:42 CST
+# 2018.01.23 18:17:42 CST
+import cv2
+import numpy as np
+
+def crop(filename):
+  img = image.load_img(filename)    
+  img = np.array(img)
+  img = img[:, :, ::-1].copy() 
+
+  ## (1) Convert to gray, and threshold
+  gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+  th, threshed = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY_INV)
+
+  ## (2) Morph-op to remove noise
+  kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11,11))
+  morphed = cv2.morphologyEx(threshed, cv2.MORPH_CLOSE, kernel)
+
+  ## (3) Find the max-area contour
+  cnts = cv2.findContours(morphed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
+  cnt = sorted(cnts, key=cv2.contourArea)[-1]
+
+  ## (4) Crop and save it
+  x,y,w,h = cv2.boundingRect(cnt)
+  dst = img[y:y+h, x:x+w]
+  cv2.imwrite(filename, dst)
+
+
 def model_predict(img_path, model):
     class_names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y' ]
+    crop(img_path)
     images = image.load_img(img_path, target_size=(28, 28))    
     x = image.img_to_array(images)
     x = tf.image.rgb_to_grayscale(x)
     x = np.expand_dims(x, axis=0)
-    x = x/255.0
     predicted_classes = model.predict(x).tolist()
     ind = predicted_classes[0].index(max(predicted_classes[0]))
     predicted_let = str(class_names[ind])
