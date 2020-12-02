@@ -54,7 +54,7 @@ def model_predict(img_path, model):
     result = []; img = image.load_img(img_path, target_size=(28,28,1))
     #img = Image.open(img_path).convert('RGB')
     imgData = np.array(img)
-    predicted_classes = model.predict_classes(imgData)
+    predicted_classes = model.predict(imgData)
     predicted_let = str(class_names[int(predicted_classes[0])])
     result_html1 = path/'static'/'result1.html'
     result_html2 = path/'static'/'result2.html'
