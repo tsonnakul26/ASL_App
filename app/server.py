@@ -51,8 +51,7 @@ async def upload(request):
 
 def model_predict(img_path, model):
     result = []; img = image.load_img(img_path, target_size=(224, 224))
-    imgData = asarray(img)
-    imgData = imgData.reshape(28,28,1)
+    imgData = np.array(img).reshape(28,28,1)
     predicted_classes = model.predict_classes(imgData)
     predicted_let = str(class_names[int(predicted_classes[0])])
     result_html1 = path/'static'/'result1.html'
