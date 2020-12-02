@@ -50,15 +50,15 @@ async def upload(request):
     return model_predict(IMG_FILE_SRC, model)
 
 def model_predict(img_path, model):
+    class_names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y' ]
     result = []; img = image.load_img(img_path, target_size=(28,28,1))
     #img = Image.open(img_path).convert('RGB')
-    #imgData = np.array(img).reshape(28,28,1)
-    #predicted_classes = model.predict_classes(imgData)
-    #predicted_let = str(class_names[int(predicted_classes[0])])
+    imgData = np.array(img).reshape(28,28,1)
+    predicted_classes = model.predict_classes(imgData)
+    predicted_let = str(class_names[int(predicted_classes[0])])
     result_html1 = path/'static'/'result1.html'
     result_html2 = path/'static'/'result2.html'
-    test = str(img.size)
-    result_html = str(result_html1.open().read() +test + result_html2.open().read())
+    result_html = str(result_html1.open().read() +predicted_let + result_html2.open().read())
     return HTMLResponse(result_html)
 
 @app.route("/")
