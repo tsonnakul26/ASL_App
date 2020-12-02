@@ -54,8 +54,6 @@ async def upload(request):
 # Created by Silencer @ Stackoverflow 
 # 2018.01.23 14:41:42 CST
 # 2018.01.23 18:17:42 CST
-import cv2
-import numpy as np
 
 def crop(filename):
   img = image.load_img(filename)    
@@ -79,10 +77,32 @@ def crop(filename):
   dst = img[y:y+h, x:x+w]
   cv2.imwrite(filename, dst)
 
+def resize(filename) :
+  desired_size = 28
+  im = Image.open(filename)
+  old_size = im.size  # old_size[0] is in (width, height) format
+
+  ratio = float(desired_size) / max(old_size)
+  new_size = tuple([int(x * ratio) for x in old_size])
+  # use thumbnail() or resize() method to resize the input image
+
+  # thumbnail is a in-place operation
+
+  # im.thumbnail(new_size, Image.ANTIALIAS)
+
+  im = im.resize(new_size, Image.ANTIALIAS)
+  # create a new image and paste the resized on it
+
+  new_im = Image.new("RGB", (desired_size, desired_size), (255, 255, 255))
+  new_im.paste(im, ((desired_size - new_size[0]) // 2,
+                    (desired_size - new_size[1]) // 2))
+  new_im.save(filename)
+
 
 def model_predict(img_path, model):
     class_names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y' ]
     crop(img_path)
+    resize(img_path)
     images = image.load_img(img_path, target_size=(28, 28))    
     x = image.img_to_array(images)
     x = tf.image.rgb_to_grayscale(x)
