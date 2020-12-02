@@ -11,7 +11,7 @@ import uvicorn, aiohttp, asyncio
 import sys, numpy as np
 
 path = Path(__file__).parent
-model_file_url = 'YOUR MODEL.h5 DIRECT / RAW DOWNLOAD URL HERE!'
+model_file_url = 'https://github.com/tsonnakul26/ASL_App/blob/main/app/models/model.h5?raw=true'
 model_file_name = 'model'
 
 app = Starlette()
@@ -51,12 +51,13 @@ async def upload(request):
 
 def model_predict(img_path, model):
     result = []; img = image.load_img(img_path, target_size=(224, 224))
-    x = preprocess_input(np.expand_dims(image.img_to_array(img), axis=0))
-    predictions = decode_predictions(model.predict(x), top=3)[0] # Get Top-3 Accuracy
-    for p in predictions: _,label,accuracy = p; result.append((label,accuracy))
+    imgData = asarray(img)
+    imgData = imgData.reshape(28,28,1)
+    predicted_classes = model.predict_classes(imgData)
+    predicted_let = str(class_names[int(predicted_classes[0])])
     result_html1 = path/'static'/'result1.html'
     result_html2 = path/'static'/'result2.html'
-    result_html = str(result_html1.open().read() +str(result) + result_html2.open().read())
+    result_html = str(result_html1.open().read() +predicted_let + result_html2.open().read())
     return HTMLResponse(result_html)
 
 @app.route("/")
