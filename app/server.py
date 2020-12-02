@@ -50,7 +50,7 @@ async def upload(request):
     return model_predict(IMG_FILE_SRC, model)
 
 def model_predict(img_path, model):
-    result = []; img = image.load_img(img_path, target_size=(224, 224))
+    result = []; img = image.load_img(img_path, target_size=(28,28,1))
     #img = Image.open(img_path).convert('RGB')
     #imgData = np.array(img).reshape(28,28,1)
     #predicted_classes = model.predict_classes(imgData)
