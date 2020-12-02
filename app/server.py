@@ -9,6 +9,7 @@ from starlette.middleware.cors import CORSMiddleware
 from pathlib import Path
 import uvicorn, aiohttp, asyncio
 import sys, numpy as np
+import tensorflow as tf
 
 path = Path(__file__).parent
 model_file_url = 'https://github.com/tsonnakul26/ASL_App/tree/main/app/models'
