@@ -57,7 +57,7 @@ def model_predict(img_path, model):
     #predicted_let = str(class_names[int(predicted_classes[0])])
     result_html1 = path/'static'/'result1.html'
     result_html2 = path/'static'/'result2.html'
-    result_html = str(result_html1.open().read() +img.size+' '+img.mode + result_html2.open().read())
+    result_html = str(result_html1.open().read() +str(img.size+' '+img.mode) + result_html2.open().read())
     return HTMLResponse(result_html)
 
 @app.route("/")
