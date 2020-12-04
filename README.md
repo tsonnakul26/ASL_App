@@ -1,3 +1,15 @@
+# WLASL Project - Vision & Language Fall 2020
+
+ASL Image and Video CLassification Project using MNIST ASL dataset, Handspeak reverse ASL dictionary, and WLASL dataset
+Layne Berry, Ethan Blaser, Thrishna Sonnakul, Surya Ambardar
+
+
+
+
+
+ASL Alphabet Letter Classification Website Demo
+Link: https://asl-app.onrender.com/
+
 Followed tutorial: 
 https://towardsdatascience.com/building-web-app-for-computer-vision-model-deploying-to-production-in-10-minutes-a-detailed-ec6ac52ec7e4
 
