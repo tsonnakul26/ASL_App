@@ -3,19 +3,13 @@
 ASL Image and Video CLassification Project using MNIST ASL dataset, Handspeak reverse ASL dictionary, and WLASL dataset
 Layne Berry, Ethan Blaser, Thrishna Sonnakul, Surya Ambardar
 
-
-
-
-
-ASL Alphabet Letter Classification Website Demo
+#ASL Alphabet Letter Classification Website Demo
 Link: https://asl-app.onrender.com/
+
+keras-vision-app
 
 Followed tutorial: 
 https://towardsdatascience.com/building-web-app-for-computer-vision-model-deploying-to-production-in-10-minutes-a-detailed-ec6ac52ec7e4
-
-
-
-# keras-vision-app
 
 Deployment ready starter pack for creating fast responsive Web App for Keras or Tensorflow2 Vision models using Starlette.io framework with Uvicorn ASGI server.
 
