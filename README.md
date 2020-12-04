@@ -1,3 +1,8 @@
+Followed tutorial: 
+https://towardsdatascience.com/building-web-app-for-computer-vision-model-deploying-to-production-in-10-minutes-a-detailed-ec6ac52ec7e4
+
+
+
 # keras-vision-app
 
 Deployment ready starter pack for creating fast responsive Web App for Keras or Tensorflow2 Vision models using Starlette.io framework with Uvicorn ASGI server.
